@@ -33,7 +33,6 @@ class QuoteGenerator extends Component{
             <div className="main-wrapper"> 
                 <div className="quote-container" id="quote-container">
                    <div className="quote-text">
-                        {/* <i className="fas fa-quote-left"></i> */}
                         <FontAwesomeIcon className="fa-quote-left" icon={faQuoteLeft}/>
                         <span id="quote">{this.state.quote.quoteText}</span>
                    </div>
