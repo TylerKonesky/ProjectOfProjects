@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import './Infinity.css';
 import Loader from '../../images/loader.svg';
-import Test from '../../images/test.jpg'
 import Axios from 'axios';
 
 class Infinity extends Component{
@@ -12,16 +11,18 @@ class Infinity extends Component{
             readyToLoad: true
         }
     }
-    componentWillMount(){
+    componentDidMount(){
         this.getImages();
         this.scroll();
     }
-    getImages = async () => {
+
+    getImages = () => {
         try{
-            await Axios.get('https://api.unsplash.com/photos/random/?client_id=sEgzNqbaFQl5dPMz2yaxASDh-Py4Yb9fmaPSHuQHHx8&count=10').then(res =>{
-            console.log(res.data)
-            this.setState({images: [...this.state.images, ...res.data], readyToLoad: true})
-        })
+            setTimeout( async () =>{
+                await Axios.get('https://api.unsplash.com/photos/random/?client_id=sEgzNqbaFQl5dPMz2yaxASDh-Py4Yb9fmaPSHuQHHx8&count=10').then(res =>{
+                this.setState({images: [...this.state.images, ...res.data], readyToLoad: true})
+                }, 750)
+            })
         }catch(err){
             console.log("there was an error...", err)
         }
@@ -34,7 +35,7 @@ class Infinity extends Component{
             default:
                 return this.state.images.map(image => {
                     return (
-                        <img src={image.urls.regular} alt={image.alt_description}></img>
+                        <img key={image.urls.regular} src={image.urls.regular} alt={image.alt_description}></img>
                     )
                 })
        }
@@ -44,7 +45,7 @@ class Infinity extends Component{
         window.addEventListener('scroll', () =>{
             if(window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000 && this.state.readyToLoad === true){
                 this.setState({readyToLoad: false})
-                this.getImages();
+                setTimeout(() => {this.getImages()}, 500)
             }
         })
     }
@@ -52,7 +53,7 @@ class Infinity extends Component{
     renderLoader(){
         return(
             <div className="infinity-loader" id="loader">
-                <img className="infinity-loader-image" src={Loader}></img>
+                <img className="infinity-loader-image" src={Loader} alt="loading..."></img>
             </div>
         )
     }

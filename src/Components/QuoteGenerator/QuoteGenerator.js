@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import './QuoteGenerator.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { fab, fas } from '@fortawesome/free-brands-svg-icons'
 import {faTwitter} from '@fortawesome/free-brands-svg-icons'; 
 import { faQuoteLeft } from '@fortawesome/free-solid-svg-icons'
 
@@ -22,6 +21,7 @@ class QuoteGenerator extends Component{
         const apiUrl = 'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
         try{
             const response = await fetch(proxyUrl + apiUrl).then(res => res.json()).then(result => this.setState({quote: result}));
+            return response;
             
         }catch(error){
             this.getNewQuote();
